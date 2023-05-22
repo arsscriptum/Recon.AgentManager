@@ -90,7 +90,7 @@ BOOL CMuaServerDlg::OnInitDialog()
 
 
 	// ClientList标题所需字段
-	CString head[] = { TEXT("IP:PORT"), TEXT("TOKEN"), TEXT("主机名"), TEXT("操作系统"), TEXT("CPU"), TEXT("内存"), TEXT("摄像头数量")};
+	CString head[] = { TEXT("IP:PORT"), TEXT("TOKEN"), TEXT("CPU name"), TEXT("os"), TEXT("CPU"), TEXT("Memory"), TEXT("Number of cameras")};
 
 	// 插入列标题
 	m_ClientList.InsertColumn(0, head[0], LVCFMT_LEFT, 150);
@@ -120,7 +120,7 @@ BOOL CMuaServerDlg::OnInitDialog()
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
-// 如果向对话框添加最小化按钮，则需要下面的代码
+// If you add minimize button to dialog, you need below code
 //  来绘制该图标。  对于使用文档/视图模型的 MFC 应用程序，
 //  这将由框架自动完成。
 

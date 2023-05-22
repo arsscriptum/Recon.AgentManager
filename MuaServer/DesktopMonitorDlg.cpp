@@ -20,7 +20,7 @@ CDesktopMonitorDlg::CDesktopMonitorDlg(CClientSocket* pClientSocket, CWnd* pPare
 	this->ShowWindow(SW_SHOW);
 
 	WCHAR pszTitle[64];
-	wsprintf(pszTitle, L"桌面监控    %s:%d\n", m_pClientSocket->m_wszIpAddress, m_pClientSocket->m_wPort);
+	wsprintf(pszTitle, L"desktop monitoring    %s:%d\n", m_pClientSocket->m_wszIpAddress, m_pClientSocket->m_wPort);
 	this->SetWindowText(pszTitle);
 	
 	SetNullImage();

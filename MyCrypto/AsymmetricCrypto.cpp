@@ -151,10 +151,10 @@ VOID RsaTest() {
 	string sPublicKey, sPrivateKey;
 	RsaGenerateKey(3072, sPublicKey, sPrivateKey);
 
-	printf("公钥：\n");
+	printf("sPublicKey: \n");
 	cout << sPublicKey;
 
-	printf("私钥：\n");
+	printf("sPrivateKey: \n");
 	cout << sPrivateKey;
 
 
@@ -162,11 +162,11 @@ VOID RsaTest() {
 	string plain = "RSA Encryption Use Public Key!", cipher, recovered;
 
 	cipher = RsaEncryptUsePublicKey(sPublicKey, plain);
-	printf("密文：\n");
+	printf("RsaEncryptUsePublicKey\n");
 	PrintData((PBYTE)cipher.c_str(), cipher.length());
 
 	recovered = RsaDecryptUsePrivateKey(sPrivateKey, cipher);
-	printf("恢复的明文：\n");
+	printf("RsaDecryptUsePrivateKey\n");
 	PrintData((PBYTE)recovered.c_str(), recovered.length());
 
 
@@ -174,10 +174,10 @@ VOID RsaTest() {
 	string plain2 = "RSA Encryption Use Private Key!", cipher2, recovered2;
 
 	cipher2 = RsaEncryptUsePrivateKey(sPrivateKey, plain2);
-	printf("密文：\n");
+	printf("RsaEncryptUsePrivateKey\n");
 	PrintData((PBYTE)cipher2.c_str(), cipher2.length());
 
 	recovered2 = RsaDecryptUsePublicKey(sPublicKey, cipher2);
-	printf("恢复的明文：\n");
+	printf("RsaDecryptUsePublicKey\n");
 	PrintData((PBYTE)recovered2.c_str(), recovered2.length());
 }

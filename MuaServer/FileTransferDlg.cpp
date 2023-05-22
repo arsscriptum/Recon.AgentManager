@@ -18,18 +18,18 @@ CFileTransferDlg::CFileTransferDlg(CClientSocket* pClientSocket, CWnd* pParent /
 	this->ShowWindow(SW_SHOW);
 
 	WCHAR pszTitle[64];
-	wsprintf(pszTitle, L"文件传输    %s:%d\n", m_pClientSocket->m_wszIpAddress, m_pClientSocket->m_wPort);
+	wsprintf(pszTitle, L"file transfer    %s:%d\n", m_pClientSocket->m_wszIpAddress, m_pClientSocket->m_wPort);
 	this->SetWindowText(pszTitle);
 
 	// 修改CListCtrl的字体，使得等宽
 	static CFont font;
 	font.DeleteObject();
-	font.CreatePointFont(100, _T("新宋体"));
+	font.CreatePointFont(100, _T("Arial"));
 	m_FileList.SetFont(&font);
 	m_TaskList.SetFont(&font);
 
 	// 文件列表
-	CString head[] = { TEXT("名称"), TEXT("大小"), TEXT("类型"), TEXT("修改时间"), TEXT("属性"), TEXT("所有者") };		// TODO: 属性 和 所有者 是为Linux系统预留的
+	CString head[] = { TEXT("name"), TEXT("size"), TEXT("type"), TEXT("change time"), TEXT("Attributes"), TEXT("owner") };		// TODO: 属性 和 所有者 是为Linux系统预留的
 	m_FileList.InsertColumn(0, head[0], LVCFMT_LEFT, 300);
 	m_FileList.InsertColumn(1, head[1], LVCFMT_LEFT, 200);
 	m_FileList.InsertColumn(2, head[2], LVCFMT_LEFT, 100);
@@ -39,7 +39,7 @@ CFileTransferDlg::CFileTransferDlg(CClientSocket* pClientSocket, CWnd* pParent /
 	m_FileList.SetExtendedStyle(m_FileList.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
 
 	// 文件传输列表
-	CString head2[] = { TEXT("名称"), TEXT("状态"), TEXT("进度"), TEXT("大小"), TEXT("本地路径"), TEXT("远程路径"), TEXT("速度"),  TEXT("估计剩余时间"), TEXT("经过时间")};
+	CString head2[] = { TEXT("name"), TEXT("state"), TEXT("schedule"), TEXT("size"), TEXT("local path"), TEXT("remote path"), TEXT("speed"),  TEXT("Estimated remaining time"), TEXT("Elapsed time")};
 	m_TaskList.InsertColumn(0, head2[0], LVCFMT_LEFT, 100);
 	m_TaskList.InsertColumn(1, head2[1], LVCFMT_LEFT, 60);
 	m_TaskList.InsertColumn(2, head2[2], LVCFMT_LEFT, 80);
@@ -374,7 +374,7 @@ BOOL CFileTransferDlg::ChooseLocalDir(PWCHAR pwszLocalDir) {
 	//}
 
 	CFolderPickerDialog FolderDlg;
-	FolderDlg.m_ofn.lpstrTitle = _T("将文件下载到");
+	FolderDlg.m_ofn.lpstrTitle = _T("Download the file to");
 	//FolderDlg.m_ofn.lpstrInitialDir = _T("C:\\");
 	if (FolderDlg.DoModal() == IDOK) {
 		CString csFolderPath = FolderDlg.GetPathName();

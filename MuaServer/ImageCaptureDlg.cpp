@@ -23,7 +23,7 @@ CImageCaptureDlg::CImageCaptureDlg(CClientSocket* pClientSocket, CWnd* pParent /
 	this->ShowWindow(SW_SHOW);
 
 	WCHAR pszTitle[64];
-	wsprintf(pszTitle, L"图像捕获    %s:%d\n", m_pClientSocket->m_wszIpAddress, m_pClientSocket->m_wPort);
+	wsprintf(pszTitle, L"image capture    %s:%d\n", m_pClientSocket->m_wszIpAddress, m_pClientSocket->m_wPort);
 	this->SetWindowText(pszTitle);
 }
 
@@ -95,16 +95,16 @@ void CImageCaptureDlg::DisplayPrintScreen(CONNID dwConnID, QWORD qwClientToken, 
 }
 
 
-// 接收图片切片并合并成完整图片
+// Receive image slices and merge them into a complete image
 VOID CImageCaptureDlg::RecvImage(CONNID dwConnID, QWORD qwClientToken, WORD wServiceType, WORD wSocketType, int iCommandID, MyBuffer mBuffer) {
 	_ImageSection_C2S mData = MsgUnpack<_ImageSection_C2S>((PBYTE)mBuffer.ptr(), mBuffer.size());
 
-	// 图像的首个切片，拼接出将要存储的文件名
+	// The first slice of the image, concatenated into the filename where it will be stored
 	if (mData.dwIndex == 1) {
 
-		//如果文件夹不存在，则创建
+		//If the folder does not exist, create it
 		CHAR szPathName[MAX_PATH] = { 0 };
-		sprintf_s(szPathName, "%s\\MuaData\\ImageCapture\\", ROOT_DIR);		// 如果路径的最后一个组件是目录而不是文件名，则字符串必须以\结尾。
+		sprintf_s(szPathName, "%s\\MuaData\\ImageCapture\\", ROOT_DIR);		// If the last component of the path is a directory rather than a filename, the string must end with \.
 		if (_access(szPathName, 0) == -1) {
 			MakeSureDirectoryPathExists(szPathName);
 		}
@@ -128,13 +128,13 @@ VOID CImageCaptureDlg::RecvImage(CONNID dwConnID, QWORD qwClientToken, WORD wSer
 		sprintf_s(m_szImagePath, "%s%s_%s_%04d.jpg", szPathName, W2A(m_pClientSocket->m_wszIpAddress), szTime, m_dwCurrentTimeImageNum);
 	}
 
-	// 此种情况必为Client端在伪造报文，试图消耗Server的资源。
+	// In this case, the client must be forging packets in an attempt to consume the resources of the server.
 	else if (mData.dwIndex != 0 && mData.dwIndex != m_dwImageSectionIndex + 1) {
-		// TODO: 断开连接
+		// TODO: Disconnect
 		return;
 	}
 
-	// 写入文件
+	// write to file
 	string sImagePath = m_szImagePath;
 	std::ofstream of(sImagePath, std::ios_base::binary | std::ios_base::app);
 	of.write(mData.msImageSection.ptr, mData.msImageSection.size);
@@ -153,20 +153,20 @@ VOID CImageCaptureDlg::RecvImage(CONNID dwConnID, QWORD qwClientToken, WORD wSer
 }
 
 
-// 将图片加载到UI
+// Load image to UI
 VOID CImageCaptureDlg::LoadImage(PCHAR pszFileName) {
 	CString csImagePath;
 	USES_CONVERSION;
 	csImagePath.Format(L"%s", A2W(pszFileName));
  
-	//定义变量存储图片信息  
+	//Define variables to store image information
 	//BITMAPINFO* pBmpInfo;				//记录图像细节  
 	//BYTE* pBmpData;						//图像数据  
 	BITMAPFILEHEADER bmpHeader;			//文件头  
 	BITMAPINFOHEADER bmpInfo;			//信息头  
 	CFile bmpFile;						//记录打开文件  
 
-	//以只读的方式打开文件 读取BMP图片各部分 bmp文件头 信息 数据  
+	//Open the file in a read-only mode and read each part of the BMP image. The bmp file header information data
 	if (!bmpFile.Open(csImagePath, CFile::modeRead | CFile::typeBinary))
 		return;
 	if (bmpFile.Read(&bmpHeader, sizeof(BITMAPFILEHEADER)) != sizeof(BITMAPFILEHEADER))

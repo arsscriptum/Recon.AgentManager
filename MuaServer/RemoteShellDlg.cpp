@@ -22,7 +22,7 @@ CRemoteShellDlg::CRemoteShellDlg(CClientSocket* pClientSocket, CWnd* pParent /*=
 	this->ShowWindow(SW_SHOW);
 
 	WCHAR pszTitle[64];
-	wsprintf(pszTitle, L"远程SHELL    %s:%d\n", m_pClientSocket->m_wszIpAddress, m_pClientSocket->m_wPort);
+	wsprintf(pszTitle, L"Remote SHELL    %s:%d\n", m_pClientSocket->m_wszIpAddress, m_pClientSocket->m_wPort);
 	this->SetWindowText(pszTitle);
 
 	// 修改焦点到编辑框上
@@ -34,7 +34,7 @@ CRemoteShellDlg::CRemoteShellDlg(CClientSocket* pClientSocket, CWnd* pParent /*=
 	// 修改字体，使得等宽
 	static CFont font;
 	font.DeleteObject();
-	font.CreatePointFont(100, _T("新宋体"));
+	font.CreatePointFont(100, _T("Arial"));
 	m_EditResult.SetFont(&font);
 }
 
@@ -56,10 +56,10 @@ void CRemoteShellDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 
-// 解决回车键 ESC 默认关闭窗口
+// Solve the problem that the Enter key ESC closes the window by default
 BOOL CRemoteShellDlg::PreTranslateMessage(MSG* pMsg)
 {
-	// 按下回车键并且焦点在输入执行命令的那个编辑框上 等于 按下执行命令按钮
+	// Press the Enter key and the focus is on the edit box where the execution command is entered, which is equal to pressing the execution command button
 	if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN) {
 		if (GetFocus() == GetDlgItem(IDC_INPUT_CMD)) {
 			OnBnClickedExecCmd();

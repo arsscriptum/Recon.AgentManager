@@ -107,6 +107,6 @@ EnHandleResult CMyTcpPackServer::OnClose(ITcpServer* pSender, CONNID dwConnID, E
 
 EnHandleResult CMyTcpPackServer::OnShutdown(ITcpServer* pSender) {
 	DebugPrint("OnShutdown: \n");
-	DebugPrint("Socket服务端关闭成功\n");
+	DebugPrint("Socket\n");
 	return HR_OK;
 }

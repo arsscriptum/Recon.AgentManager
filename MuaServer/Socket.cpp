@@ -303,25 +303,24 @@ EnHandleResult CSocket::OnReceive(ITcpServer* pSender, CONNID dwConnID, const BY
 	// 新的Socket
 	if (pClientSocket == nullptr) {
 
-		// 判断这个新的Socket是否是ClientSocket(如果知道了IP:PORT, 这个TCP谁都可以连，但只有遵循我们MUA的通信协议的才是ClientSocket)
 		if (IsNewClientSocket(dwConnID, pData, iLength)) {
 			// 初始化这个新的ClientSocket
 			InitNewClientSocket(dwConnID, pData, iLength);
 		}
 
-		// 不是ClientSocket，断开连接
+	
 		else {
 			DebugPrint("[Client %d] 不符合本项目的通信协议，断开连接\n", dwConnID);
 			Disconnect(dwConnID);
 		}
 	}
 
-	// 不是新的Socket，正常解密
+	
 	else {
 		string sPlainText = pClientSocket->m_pDec->Decrypt((PBYTE)pData, iLength);
 
 		if (sPlainText == "") {
-			DebugPrint("[Client %d] 解密接收到的数据时出现异常\n", dwConnID);
+			DebugPrint("[Client %d] \n", dwConnID);
 		}
 		else {
 			nsGeneralSocket::_GeneralDataPacket mData = MsgUnpack<nsGeneralSocket::_GeneralDataPacket>((PBYTE)sPlainText.c_str(), sPlainText.length());
