@@ -366,3 +366,16 @@ FodyWeavers.xsd
 cryptlib_x64_MDd_U.lib
 cryptlib_x64_MTd_U.lib
 cryptlib_x86_MTd_U.lib
+
+
+
+Libs.zip
+
+MyCrypto/Lib
+MyCrypto/Lib/**
+
+MyHpSocket/Lib
+MyHpSocket/Lib/**
+
+MyMsgPack/Lib
+MyMsgPack/Lib/**
